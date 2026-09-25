@@ -6,29 +6,297 @@
 <meta name="theme-color" content="#101827">
 <title>Мой первый банк</title>
 <style>
-:root{--bg:#0b1020;--card:#151d31;--card2:#1b2640;--text:#f7f9ff;--muted:#aab5ca;--accent:#6ee7b7;--accent2:#60a5fa;--warn:#fbbf24;--danger:#fb7185;--line:#2a3753}
-*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 20% 0%,#20345b 0,#0b1020 42%,#070b15 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
-.container{max-width:1050px;margin:auto;padding:22px 16px 50px}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}.brand{font-weight:900;font-size:24px}.brand span{color:var(--accent)}.badge{font-size:12px;color:#d7e1f4;background:#1b2640;border:1px solid #30405f;padding:8px 11px;border-radius:999px}
-h1{font-size:clamp(30px,6vw,52px);line-height:1.02;margin:25px 0 10px;letter-spacing:-2px}.lead{color:var(--muted);max-width:720px;font-size:17px}
-.nav{display:flex;gap:8px;overflow:auto;margin:22px 0 16px}.nav button{white-space:nowrap;border:1px solid var(--line);background:#11192b;color:#c8d3e8;padding:11px 14px;border-radius:12px;font-weight:800;cursor:pointer}.nav button.active{background:var(--accent);color:#07151a;border-color:var(--accent)}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.card{grid-column:span 6;background:linear-gradient(180deg,rgba(27,38,64,.95),rgba(18,27,47,.96));border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 15px 45px rgba(0,0,0,.18)}.wide{grid-column:1/-1}.card h2{margin:0 0 6px;font-size:21px}.sub{color:var(--muted);font-size:14px;margin-bottom:16px}
-label{display:block;color:#c9d3e5;font-size:13px;font-weight:700;margin:13px 0 7px}input[type=text],input[type=number]{width:100%;background:#0e1627;color:var(--text);border:1px solid #30405f;border-radius:12px;padding:12px;font-size:16px;outline:none}input:focus{border-color:var(--accent2)}
-input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}.row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.value{font-weight:900;color:var(--accent);min-width:75px;text-align:right}
-.goal{display:flex;align-items:center;gap:14px}.emoji{font-size:40px;background:#0e1627;border:1px solid var(--line);width:68px;height:68px;border-radius:18px;display:grid;place-items:center}.big{font-size:32px;font-weight:950}.muted{color:var(--muted)}
-.progress{height:13px;background:#0a1120;border-radius:999px;overflow:hidden;margin:15px 0 8px;border:1px solid #25324c}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:inherit;transition:width .25s}
-.envelopes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.env{padding:13px;border:1px solid var(--line);background:#10192c;border-radius:16px}.env .icon{font-size:26px}.env b{display:block;margin-top:5px}.env .sum{font-size:20px;font-weight:900;margin-top:8px}.env input{margin-top:8px}
-.status{padding:12px 14px;border-radius:13px;background:#0d1728;border:1px solid var(--line);margin-top:12px}.status.good{border-color:#2e8f70}.status.warn{border-color:#8a6d1b}
-.chart{height:180px;display:flex;align-items:end;gap:6px;padding:12px 2px 0;border-bottom:1px solid #33415f;border-left:1px solid #33415f}.col{flex:1;display:flex;flex-direction:column;justify-content:end;align-items:center;height:100%;gap:5px}.stick{width:100%;max-width:34px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:7px 7px 0 0;min-height:3px}.col small{font-size:10px;color:#8290aa}
-button.primary{border:0;background:linear-gradient(135deg,var(--accent),#9bf6d1);color:#061514;padding:13px 17px;border-radius:13px;font-weight:900;cursor:pointer}button.secondary{border:1px solid var(--line);background:#111a2d;color:#dce6f7;padding:12px 15px;border-radius:13px;font-weight:800;cursor:pointer}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
-.dev{display:none}.dev.open{display:block}.codebox{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#080d18;border:1px solid #273650;border-radius:14px;padding:14px;color:#b8c8e8;font-size:13px;line-height:1.7}.token{color:#6ee7b7}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(120px);background:#f7f9ff;color:#0b1020;padding:12px 16px;border-radius:14px;font-weight:900;box-shadow:0 15px 40px #0008;transition:.25s;z-index:10}.toast.show{transform:translateX(-50%) translateY(0)}
-footer{margin-top:24px;color:#6f7c93;font-size:12px;text-align:center}
-@media(max-width:720px){.card{grid-column:1/-1}.envelopes{grid-template-columns:1fr}.top{align-items:flex-start}.badge{display:none}}
+    :root{
+        --bg:#0b1020;
+        --card:#151d31;
+        --card2:#1b2640;
+        --text:#f7f9ff;
+        --muted:#aab5ca;
+        --accent:#6ee7b7;
+        --accent2:#60a5fa;
+        --warn:#fbbf24;
+        --danger:#fb7185;
+        --line:#2a3753
+    }
+    *{box-sizing:border-box} 
+    body{
+        margin:0;
+        background:radial-gradient(
+            circle at 20% 0%,
+            #20345b 0,
+            #0b1020 42%,
+            #070b15 100%
+        );
+        color:var(--text);
+        font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+        min-height:100vh
+    }
+    .container{
+        max-width:1050px;
+        margin:auto;
+        padding:22px 16px 50px
+    }.top{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:15px;
+        margin-bottom:18px
+    }.brand{
+        font-weight:900;
+        font-size:24px
+    }.brand span{
+        color:var(--accent)
+    }.badge{
+        font-size:12px;
+        color:#d7e1f4;
+        background:#1b2640;
+        border:1px solid #30405f;
+        padding:8px 11px;
+        border-radius:999px
+    }
+    h1{
+        font-size:clamp(30px,6vw,52px);
+        line-height:1.02;
+        margin:25px 0 10px;
+        letter-spacing:-2px
+    }.lead{
+        color:var(--muted);
+        max-width:720px;
+        font-size:17px
+    }
+    .nav{
+        display:flex;
+        gap:8px;
+        overflow:auto;
+        margin:22px 0 16px
+    }.nav button{
+        white-space:nowrap;
+        border:1px solid var(--line);
+        background:#11192b;
+        color:#c8d3e8;
+        padding:11px 14px;
+        border-radius:12px;
+        font-weight:800;
+        cursor:pointer
+    }.nav button.active{
+        background:var(--accent);
+        color:#07151a;
+        border-color:var(--accent)
+    }
+    .grid{
+        display:grid;
+        grid-template-columns:repeat(12,1fr);
+        gap:14px
+    }.card{
+        grid-column:span 6;
+        background:linear-gradient(180deg,rgba(27,38,64,.95),rgba(18,27,47,.96));
+        border:1px solid var(--line);
+        border-radius:20px;
+        padding:18px;
+        box-shadow:0 15px 45px rgba(0,0,0,.18)
+    }.wide{
+        grid-column:1/-1
+    }.card h2{
+        margin:0 0 6px;
+        font-size:21px
+    }.sub{
+        color:var(--muted);
+        font-size:14px;
+        margin-bottom:16px
+    }
+    label{
+        display:block;
+        color:#c9d3e5;
+        font-size:13px;
+        font-weight:700;
+        margin:13px 0 7px
+    }
+    input[type=text],
+    input[type=number]{
+        width:100%;
+        background:#0e1627;
+        color:var(--text);
+        border:1px solid #30405f;
+        border-radius:12px;
+        padding:12px;
+        font-size:16px;
+        outline:none
+    }input:focus{
+        border-color:var(--accent2)
+    }
+    input[type=range]{
+        width:100%;
+        accent-color:var(--accent);
+        cursor:pointer
+    }.row{
+        display:grid;
+        grid-template-columns:1fr auto;
+        gap:12px;align-items:center
+    }.value{
+        font-weight:900;
+        color:var(--accent);
+        min-width:75px;
+        text-align:right
+    }
+    .goal{
+        display:flex;
+        align-items:center;
+        gap:14px
+    }.emoji{
+        font-size:40px;
+        background:#0e1627;
+        border:1px solid var(--line);
+        width:68px;height:68px;
+        border-radius:18px;
+        display:grid;
+        place-items:center
+    }.big{
+        font-size:32px;
+        font-weight:950
+    }.muted{
+        color:var(--muted)
+    }
+    .progress{
+        height:13px;
+        background:#0a1120;
+        border-radius:999px;
+        overflow:hidden;
+        margin:15px 0 8px;
+        border:1px solid #25324c
+    }.bar{
+        height:100%;
+        width:0;
+        background:linear-gradient(90deg,var(--accent2),var(--accent));
+        border-radius:inherit;
+        transition:width .25s
+    }
+    .envelopes{
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:10px
+    }.env{
+        padding:13px;
+        border:1px solid var(--line);
+        background:#10192c;
+        border-radius:16px
+    }.env .icon{
+        font-size:26px
+    }.env b{
+        display:block;
+        margin-top:5px
+    }.env .sum{
+        font-size:20px;
+        font-weight:900;
+        margin-top:8px
+    }.env input{
+        margin-top:8px
+    }
+    .status{
+        padding:12px 14px;
+        border-radius:13px;
+        background:#0d1728;
+        border:1px solid var(--line);
+        margin-top:12px
+    }.status.good{
+        border-color:#2e8f70
+    }.status.warn{border-color:#8a6d1b}
+    .chart{
+        height:180px;
+        display:flex;
+        align-items:end;
+        gap:6px;
+        padding:12px 2px 0;
+        border-bottom:1px solid #33415f;
+        border-left:1px solid #33415f
+    }.col{
+        flex:1;
+        display:flex;
+        flex-direction:column;
+        justify-content:end;
+        align-items:center;
+        height:100%;
+        gap:5px
+    }.stick{
+        width:100%;
+        max-width:34px;
+        background:linear-gradient(180deg,var(--accent),var(--accent2));
+        border-radius:7px 7px 0 0;
+        min-height:3px
+    }.col small{
+        font-size:10px;
+        color:#8290aa
+    }
+    button.primary{
+        border:0;
+        background:linear-gradient(135deg,var(--accent),#9bf6d1);
+        color:#061514;
+        padding:13px 17px;
+        border-radius:13px;
+        font-weight:900;
+        cursor:pointer
+    }button.secondary{
+        border:1px solid var(--line);
+        background:#111a2d;
+        color:#dce6f7;
+        padding:12px 15px;
+        border-radius:13px;
+        font-weight:800;
+        cursor:pointer
+    }.actions{
+        display:flex;
+        gap:9px;
+        flex-wrap:wrap;
+        margin-top:15px
+    }
+    .dev{
+        display:none
+    }.dev.open{
+        display:block
+    }.codebox{
+        font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+        background:#080d18;
+        border:1px solid #273650;
+        border-radius:14px;
+        padding:14px;
+        color:#b8c8e8;
+        font-size:13px;
+        line-height:1.7
+    }.token{color:#6ee7b7}
+    .toast{
+        position:fixed;
+        left:50%;
+        bottom:22px;
+        transform:translateX(-50%) translateY(120px);
+        background:#f7f9ff;
+        color:#0b1020;
+        padding:12px 16px;
+        border-radius:14px;
+        font-weight:900;
+        box-shadow:0 15px 40px #0008;
+        transition:.25s;
+        z-index:10
+    }.toast.show{
+        transform:translateX(-50%) translateY(0)
+    }
+    footer{
+        margin-top:24px;
+        color:#6f7c93;
+        font-size:12px;
+        text-align:center
+    }
+    @media(max-width:720px){
+        .card{grid-column:1/-1}
+        .envelopes{grid-template-columns:1fr}
+        .top{align-items:flex-start}
+        .badge{display:none}
+    }
 </style>
 </head>
 <body>
 <div class="container">
-<div class="top"><div class="brand">🏦 Мой первый <span>банк</span></div><div class="badge"></div></div>
+<div class="top">
+    <div class="brand">🏦 Мой первый <span>банк</span></div>
+</div>
 <h1>Собери свой<br><span style="color:var(--accent)">финансовый план</span></h1>
 <p class="lead">Поставь цель, распредели деньги по конвертам и попробуй изменить правила своего мини-банка.</p>
 <div class="nav">
@@ -40,50 +308,111 @@ footer{margin-top:24px;color:#6f7c93;font-size:12px;text-align:center}
 
 <section id="goal" class="grid">
 <div class="card wide">
-<h2>🎯 Моя цель</h2><div class="sub">Выбери то, на что хочется накопить.</div>
-<div class="goal"><div class="emoji">🎧</div><div><div class="muted">Цель</div><div class="big" id="goalNameView">Новые наушники</div></div></div>
-<label>Название цели</label><input id="goalName" type="text" value="Новые наушники" oninput="update()">
-<label>Цена цели</label><div class="row"><input id="target" type="range" min="500" max="20000" step="100" value="5000" oninput="update()"><div class="value" id="targetV">5 000 ₽</div></div>
-<label>Сколько откладывать каждый месяц?</label><div class="row"><input id="save" type="range" min="50" max="3000" step="50" value="500" oninput="update()"><div class="value" id="saveV">500 ₽</div></div>
-<div class="progress"><div class="bar" id="goalBar"></div></div>
+<h2>🎯 Моя цель</h2>
+    <div class="sub">Выбери то, на что хочется накопить.</div>
+    <div class="goal">
+        <div class="emoji">🎧</div>
+        <div class="muted">Цель</div>
+        <div class="big" id="goalNameView">Новые наушники</div>
+    </div>
+<label>Название цели</label>
+    <input id="goalName" type="text" value="Новые наушники" oninput="update()">
+<label>Цена цели</label>
+    <div class="row">
+        <input id="target" type="range" min="500" max="20000" step="100" value="5000" oninput="update()">
+        <div class="value" id="targetV">5 000 ₽</div>
+    </div>
+<label>Сколько откладывать каждый месяц?</label>
+    <div class="row">
+        <input id="save" type="range" min="50" max="3000" step="50" value="500" oninput="update()">
+        <div class="value" id="saveV">500 ₽</div>
+    </div>
+<div class="progress">
+    <div class="bar" id="goalBar"></div>
+</div>
 <div id="goalResult" class="status good">Откладывая 500 ₽/мес., ты достигнешь цели примерно за 10 месяцев.</div>
 </div>
 </section>
 
 <section id="env" class="grid" style="display:none">
 <div class="card wide">
-<h2>📨 Три конверта</h2><div class="sub">У тебя есть 1 000 ₽. Распредели их между тратами, накоплениями и резервом.</div>
+<h2>📨 Три конверта</h2>
+    <div class="sub">У тебя есть 1 000 ₽. Распредели их между тратами, накоплениями и резервом.</div>
 <div class="envelopes">
-<div class="env"><div class="icon">🛍️</div><b>Тратить</b><div class="sum" id="spendV">400 ₽</div><input type="range" id="spend" min="0" max="1000" step="50" value="400" oninput="balance('spend')"></div>
-<div class="env"><div class="icon">🎯</div><b>Копить</b><div class="sum" id="saveEnvV">500 ₽</div><input type="range" id="saveEnv" min="0" max="1000" step="50" value="500" oninput="balance('saveEnv')"></div>
-<div class="env"><div class="icon">🛟</div><b>Резерв</b><div class="sum" id="reserveV">100 ₽</div><input type="range" id="reserve" min="0" max="1000" step="50" value="100" oninput="balance('reserve')"></div>
+<div class="env">
+    <div class="icon">🛍️</div>
+    <b>Тратить</b>
+    <div class="sum" id="spendV">400 ₽</div>
+    <input type="range" id="spend" min="0" max="1000" step="50" value="400" oninput="balance('spend')"></div>
+<div class="env">
+    <div class="icon">🎯</div>
+    <b>Копить</b>
+    <div class="sum" id="saveEnvV">500 ₽</div>
+    <input type="range" id="saveEnv" min="0" max="1000" step="50" value="500" oninput="balance('saveEnv')"></div>
+<div class="env">
+    <div class="icon">🛟</div>
+    <b>Резерв</b>
+    <div class="sum" id="reserveV">100 ₽</div>
+    <input type="range" id="reserve" min="0" max="1000" step="50" value="100" oninput="balance('reserve')"></div>
 </div>
 <div id="envStatus" class="status good">Сбалансированный план: деньги распределены ровно на 1 000 ₽.</div>
-<div class="actions"><button class="primary" onclick="randomPlan()">🎲 Попробовать другой план</button></div>
+<div class="actions">
+    <button class="primary" onclick="randomPlan()">🎲 Попробовать другой план</button>
+</div>
 </div>
 </section>
 
 <section id="sim" class="grid" style="display:none">
 <div class="card">
-<h2>📈 Симулятор</h2><div class="sub">Экспериментируй: меняй срок, пополнение и процент.</div>
-<label>Начальная сумма</label><div class="row"><input id="start" type="range" min="0" max="5000" step="100" value="1000" oninput="simulate()"><div class="value" id="startV">1 000 ₽</div></div>
-<label>Пополнение / месяц</label><div class="row"><input id="monthly" type="range" min="0" max="3000" step="100" value="500" oninput="simulate()"><div class="value" id="monthlyV">500 ₽</div></div>
-<label>Срок</label><div class="row"><input id="months" type="range" min="1" max="24" value="12" oninput="simulate()"><div class="value" id="monthsV">12 мес.</div></div>
-<label>Годовая ставка</label><div class="row"><input id="rate" type="range" min="0" max="20" step="0.5" value="10" oninput="simulate()"><div class="value" id="rateV">10%</div></div>
+<h2>📈 Симулятор</h2>
+    <div class="sub">Экспериментируй: меняй срок, пополнение и процент.</div>
+<label>Начальная сумма</label>
+    <div class="row">
+        <input id="start" type="range" min="0" max="5000" step="100" value="1000" oninput="simulate()">
+        <div class="value" id="startV">1 000 ₽</div>
+    </div>
+<label>Пополнение / месяц</label>
+    <div class="row">
+        <input id="monthly" type="range" min="0" max="3000" step="100" value="500" oninput="simulate()">
+        <div class="value" id="monthlyV">500 ₽</div>
+    </div>
+<label>Срок</label>
+    <div class="row">
+        <input id="months" type="range" min="1" max="24" value="12" oninput="simulate()">
+        <div class="value" id="monthsV">12 мес.</div>
+    </div>
+<label>Годовая ставка</label>
+    <div class="row">
+        <input id="rate" type="range" min="0" max="20" step="0.5" value="10" oninput="simulate()">
+        <div class="value" id="rateV">10%</div>
+    </div>
 <div class="status good">Через <b id="finalMonths">12</b> месяцев: <b id="finalSum">7 631 ₽</b></div>
 </div>
-<div class="card"><h2>Рост суммы</h2><div class="sub">Упрощённая учебная модель с ежемесячным начислением процентов.</div><div class="chart" id="chart"></div></div>
+<div class="card">
+    <h2>Рост суммы</h2>
+    <div class="sub">Упрощённая учебная модель с ежемесячным начислением процентов.</div>
+    <div class="chart" id="chart"></div>
+</div>
 </section>
 
 <section id="dev" class="grid" style="display:none">
 <div class="card wide">
-<h2>⚙️ Developer Mode</h2><div class="sub">Измени параметры приложения и посмотри, как программа реагирует.</div>
+<h2>⚙️ Developer Mode</h2>
+    <div class="sub">Измени параметры приложения и посмотри, как программа реагирует.</div>
 <div class="grid">
-<div style="grid-column:span 6"><label>Название банка</label><input id="bankName" value="Мой первый банк" type="text"></div>
-<div style="grid-column:span 6"><label>Процент по умолчанию</label><input id="devRate" value="10" type="number" min="0" max="50"></div>
+<div style="grid-column:span 6">
+    <label>Название банка</label>
+    <input id="bankName" value="Мой первый банк" type="text"></div>
+<div style="grid-column:span 6">
+    <label>Процент по умолчанию</label>
+    <input id="devRate" value="10" type="number" min="0" max="50"></div>
 </div>
-<div class="codebox" style="margin-top:15px"><span class="token">goal</span> = <span id="codeGoal">5000</span><br><span class="token">monthlySaving</span> = <span id="codeSave">500</span><br><span class="token">interestRate</span> = <span id="codeRate">10</span>%<br><span class="token">theme</span> = <span id="codeTheme">"mint"</span></div>
-<div class="actions"><button class="primary" onclick="applyDev()">▶ Применить изменения</button><button class="secondary" onclick="resetAll()">↺ Сбросить</button></div>
+<div class="codebox" style="margin-top:15px">
+    <span class="token">goal</span> = <span id="codeGoal">5000</span><br><span class="token">monthlySaving</span> = <span id="codeSave">500</span><br><span class="token">interestRate</span> = <span id="codeRate">10</span>%<br><span class="token">theme</span> = <span id="codeTheme">"mint"</span></div>
+<div class="actions">
+    <button class="primary" onclick="applyDev()">▶ Применить изменения</button>
+    <button class="secondary" onclick="resetAll()">↺ Сбросить</button>
+</div>
 <div id="devStatus" class="status">Измени хотя бы один параметр — и нажми «Применить».</div>
 </div>
 </section>
@@ -92,12 +421,80 @@ footer{margin-top:24px;color:#6f7c93;font-size:12px;text-align:center}
 <div id="toast" class="toast"></div>
 <script>
 const $=id=>document.getElementById(id), money=n=>Math.round(n).toLocaleString('ru-RU')+' ₽';
-function tab(id,btn){document.querySelectorAll('section').forEach(s=>s.style.display='none');$(id).style.display='grid';document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(id==='sim')simulate();if(id==='dev')syncCode();}
-function update(){let t=+$('target').value,s=+$('save').value,n=Math.ceil(t/s);$('targetV').textContent=money(t);$('saveV').textContent=money(s);$('goalNameView').textContent=$('goalName').value||'Моя цель';$('goalBar').style.width=Math.min(100,s/t*100)+'%';$('goalResult').innerHTML=`Откладывая <b>${money(s)}</b>/мес., ты достигнешь цели примерно за <b>${n} ${n===1?'месяц':n<5?'месяца':'месяцев'}</b>.`;syncCode();saveState();}
-function balance(changed){let ids=['spend','saveEnv','reserve'];let changedEl=$(changed);let other=ids.filter(x=>x!==changed);let val=+changedEl.value;let remain=1000-val;let a=+$(other[0]).value,b=+$(other[1]).value;if(a+b!==remain){let ratio=(a+b)?a/(a+b):.5;$(other[0]).value=Math.round(remain*ratio/50)*50;$(other[1]).value=1000-val-+$(other[0]).value;if($(other[1]).value<0){$(other[1]).value=0;$(other[0]).value=remain;}}['spend','saveEnv','reserve'].forEach(x=>$(x+'V').textContent=money($(x).value));let total=ids.reduce((a,x)=>a+ +$(x).value,0),save=+$('saveEnv').value,res=+$('reserve').value;$('envStatus').className='status '+(total===1000?'good':'warn');$('envStatus').innerHTML=total===1000?(save>=300?`🟢 План готов: <b>${money(save)}</b> направляется к цели, а <b>${money(res)}</b> остаётся в резерве.`:`🟡 Накопления небольшие. Попробуй увеличить конверт «Копить».`):`⚠️ Осталось распределить ${money(Math.abs(1000-total))}.`;saveState();}
-function randomPlan(){let s=Math.floor(Math.random()*11)*50,r=Math.floor(Math.random()*5)*50;let sp=1000-s-r;if(sp<0){s=500;r=100;sp=400} $('spend').value=sp;$('saveEnv').value=s;$('reserve').value=r;balance('spend');toast('Новый финансовый план готов!');}
-function simulate(){let start=+$('start').value,monthly=+$('monthly').value,m=+$('months').value,rate=+$('rate').value/100/12,b=start,vals=[];for(let i=1;i<=m;i++){b=b*(1+rate)+monthly;vals.push(b)}$('startV').textContent=money(start);$('monthlyV').textContent=money(monthly);$('monthsV').textContent=m+' мес.';$('rateV').textContent=(rate*12*100).toFixed(1)+'%';$('finalMonths').textContent=m;$('finalSum').textContent=money(b);let max=Math.max(...vals,1);$('chart').innerHTML=vals.map((v,i)=>`<div class="col"><div class="stick" style="height:${Math.max(3,v/max*88)}%"></div><small>${i+1}</small></div>`).join('');}
-function syncCode(){$('codeGoal').textContent=+$('target').value;$('codeSave').textContent=+$('save').value;$('codeRate').textContent=$('devRate')?.value||10;}
+function tab(id,btn){
+    document.querySelectorAll('section').forEach(s=>s.style.display='none');
+    $(id).style.display='grid';
+    document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    if(id==='sim')simulate();
+    if(id==='dev')syncCode();
+}
+function update(){
+    let t=+$('target').value,s=+$('save').value,n=Math.ceil(t/s);
+    $('targetV').textContent=money(t);
+    $('saveV').textContent=money(s);
+    $('goalNameView').textContent=$('goalName').value||'Моя цель';
+    $('goalBar').style.width=Math.min(100,s/t*100)+'%';
+    $('goalResult').innerHTML=`Откладывая <b>${money(s)}</b>/мес., ты достигнешь цели примерно за <b>${n} ${n===1?'месяц':n<5?'месяца':'месяцев'}</b>.`;
+    syncCode();
+    saveState();
+}
+function balance(changed){
+    let ids=['spend','saveEnv','reserve'];
+    let changedEl=$(changed);
+    let other=ids.filter(x=>x!==changed);
+    let val=+changedEl.value;
+    let remain=1000-val;
+    let a=+$(other[0]).value,b=+$(other[1]).value;
+    if(a+b!==remain){
+        let ratio=(a+b)?a/(a+b):.5;
+        $(other[0]).value=Math.round(remain*ratio/50)*50;
+        $(other[1]).value=1000-val-+$(other[0]).value;
+        if($(other[1]).value<0){
+            $(other[1]).value=0;
+            $(other[0]).value=remain;
+        }
+    }
+    ['spend','saveEnv','reserve'].forEach(x=>$(x+'V').textContent=money($(x).value));
+    let total=ids.reduce((a,x)=>a+ +$(x).value,0),save=+$('saveEnv').value,res=+$('reserve').value;
+    $('envStatus').className='status '+(total===1000?'good':'warn');
+    $('envStatus').innerHTML=total===1000?(save>=300?`🟢 План готов: <b>${money(save)}</b> направляется к цели, а <b>${money(res)}</b> остаётся в резерве.`:`🟡 Накопления небольшие. Попробуй увеличить конверт «Копить».`):`⚠️ Осталось распределить ${money(Math.abs(1000-total))}.`;
+    saveState();
+}
+function randomPlan(){
+    let s=Math.floor(Math.random()*11)*50,r=Math.floor(Math.random()*5)*50;
+    let sp=1000-s-r;
+    if(sp<0){
+        s=500;
+        r=100;
+        sp=400
+    } 
+    $('spend').value=sp;
+    $('saveEnv').value=s;
+    $('reserve').value=r;
+    balance('spend');
+    toast('Новый финансовый план готов!');
+}
+function simulate(){
+    let start=+$('start').value,monthly=+$('monthly').value,m=+$('months').value,rate=+$('rate').value/100/12,b=start,vals=[];
+    for(let i=1;i<=m;i++){
+        b=b*(1+rate)+monthly;
+        vals.push(b)
+    }
+    $('startV').textContent=money(start);
+    $('monthlyV').textContent=money(monthly);
+    $('monthsV').textContent=m+' мес.';
+    $('rateV').textContent=(rate*12*100).toFixed(1)+'%';
+    $('finalMonths').textContent=m;
+    $('finalSum').textContent=money(b);
+    let max=Math.max(...vals,1);
+    $('chart').innerHTML=vals.map((v,i)=>`<div class="col"><div class="stick" style="height:${Math.max(3,v/max*88)}%"></div><small>${i+1}</small></div>`).join('');
+}
+function syncCode(){
+    $('codeGoal').textContent=+$('target').value;
+    $('codeSave').textContent=+$('save').value;
+    $('codeRate').textContent=$('devRate')?.value||10;
+}
 function applyDev(){
     const bankName = $('bankName').value.trim();
     const rateInput = $('devRate').value.trim();
@@ -115,9 +512,7 @@ function applyDev(){
         $('devRate').focus();
         return;
     }
-
     const rate = Number(rateInput);
-  
     if (isNaN(rate) || rate < 0 || rate > 20) {
         $('devStatus').className = 'status bad';
         $('devStatus').innerHTML = 'Процент должен быть от 0 до 20.';
@@ -125,29 +520,49 @@ function applyDev(){
         $('devRate').focus();
         return;
     }
-    
     $('rate').value = rate;
     $('bankName').value = bankName;
-
     document.querySelector('.brand').innerHTML =
         '🏦 ' + bankName.replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
     $('codeTheme').textContent = '"custom"';
-
     simulate();
     syncCode();
-
     $('devStatus').className = 'status good';
     $('devStatus').innerHTML =
         '🟢 Приложение изменено. <b>Ты только что запрограммировал его поведение.</b>';
-
     saveState();
     toast('Изменения применены!');
 }
-function resetAll(){localStorage.removeItem('bank12');location.reload();}
-function saveState(){localStorage.setItem('bank12',JSON.stringify({goal:$('goalName').value,target:$('target').value,save:$('save').value,spend:$('spend').value,saveEnv:$('saveEnv').value,reserve:$('reserve').value}));}
-function loadState(){try{let x=JSON.parse(localStorage.getItem('bank12'));if(!x)return;['goalName','target','save','spend','saveEnv','reserve'].forEach(k=>{if(x[k]!=null)$(k).value=x[k]});}catch(e){}update();balance('spend');}
-function toast(t){$('toast').textContent=t;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1800)}
-loadState();simulate();
+function resetAll(){
+    localStorage.removeItem('bank12');
+    location.reload();
+}
+function saveState(){
+    localStorage.setItem('bank12',JSON.stringify({
+        goal:$('goalName').value,
+        target:$('target').value,
+        save:$('save').value,
+        spend:$('spend').value,
+        saveEnv:$('saveEnv').value,
+        reserve:$('reserve').value
+    }));
+}
+function loadState(){
+    try{
+        let x=JSON.parse(localStorage.getItem('bank12'));
+        if(!x)return;
+        ['goalName','target','save','spend','saveEnv','reserve'].forEach(k=>{if(x[k]!=null)$(k).value=x[k]});
+    }
+    catch(e){}update();
+    balance('spend');
+}
+function toast(t){
+    $('toast').textContent=t;
+    $('toast').classList.add('show');
+    setTimeout(()=>$('toast').classList.remove('show'),1800)
+}
+loadState();
+simulate();
 </script>
-</body></html>
+</body>
+</html>
