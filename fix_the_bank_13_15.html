@@ -31,7 +31,7 @@ button.primary{background:var(--green);color:#07130f;border:0;padding:12px 15px;
 <div id="l1" class="grid">
 <div class="panel"><div class="head"><h2>🔴 LEVEL 01 — Discount Engine</h2><div class="score">+100 XP</div></div><p style="color:var(--muted)">Калькулятор должен уменьшать цену на процент скидки. Сейчас он делает наоборот.</p>
 <div class="code"><span class="line"><span class="num">01</span><span class="kw">function</span> <span class="fn">discount</span>(price, percent) {</span><span class="line"><span class="num">02</span> &nbsp; <span class="kw">return</span> price <span class="bad">* (1 + percent / 100)</span>;</span><span class="line"><span class="num">03</span>}</span></div>
-<label>Введи исправленную формулу</label><div class="input-answer"><input id="discountFix" type="text" placeholder="" autocomplete="off"><div class="hint">Можно использовать *, +, -, / и скобки.</div></div>
+<label>Введи исправленную формулу</label><div class="input-answer"><input id="discountFix" type="text" autocomplete="off"><div class="hint">Можно использовать *, +, -, / и скобки.</div></div>
 <div class="actions"><button class="primary" onclick="check1()">▶ Проверить решение</button></div><div id="s1" class="status error" style="margin-top:12px">Цена 2 000 ₽ со скидкой 20% = 2 400 ₽ ❌</div></div>
 <div class="panel preview"><h2>Проверка</h2><div class="muted">Цена</div><div class="price">2 000 ₽</div><div class="muted" style="margin-top:10px">Скидка 20%</div><div class="result" id="r1">2 400 ₽</div><div class="status" style="margin-top:14px">Подсказка: скидка должна <b>уменьшать</b> цену.</div></div>
 </div>
@@ -39,7 +39,7 @@ button.primary{background:var(--green);color:#07130f;border:0;padding:12px 15px;
 <div id="l2" class="grid hidden">
 <div class="panel"><div class="head"><h2>🔴 LEVEL 02 — FX Converter</h2><div class="score">+100 XP</div></div><p style="color:var(--muted)">Система знает курс 1 USD = 90 RUB, но переводит доллары в рубли неправильно.</p>
 <div class="code"><span class="line"><span class="num">01</span><span class="kw">const</span> rate = <span class="str">90</span>;</span><span class="line"><span class="num">02</span><span class="kw">function</span> <span class="fn">usdToRub</span>(usd) {</span><span class="line"><span class="num">03</span> &nbsp; <span class="kw">return</span> usd <span class="bad">/ rate</span>;</span><span class="line"><span class="num">04</span>}</span></div>
-<label>Введи исправленную формулу</label><div class="input-answer"><input id="fxFix" type="text" placeholder="" autocomplete="off"><div class="hint">Например: usd * rate</div></div>
+<label>Введи исправленную формулу</label><div class="input-answer"><input id="fxFix" type="text" autocomplete="off"><div class="hint">Например: usd * rate</div></div>
 <label>Проверка</label><input id="usd" type="number" value="50" min="1">
 <div class="actions"><button class="primary" onclick="check2()">▶ Проверить решение</button></div><div id="s2" class="status error" style="margin-top:12px">50 USD → 0,56 RUB ❌</div></div>
 <div class="panel preview"><h2>Конвертер</h2><div class="muted">Курс: 1 USD = 90 RUB</div><div class="result" id="r2">50 USD → 0,56 RUB</div><div class="status" style="margin-top:14px">Подсказка: если один доллар стоит 90 рублей, 50 долларов должны быть больше 50 рублей.</div></div>
@@ -48,7 +48,7 @@ button.primary{background:var(--green);color:#07130f;border:0;padding:12px 15px;
 <div id="l3" class="grid hidden">
 <div class="panel"><div class="head"><h2>🟡 LEVEL 03 — Compound Interest</h2><div class="score">+200 XP</div></div><p style="color:var(--muted)">Каждый месяц банк начисляет процент на уже увеличившуюся сумму. Восстанови формулу.</p>
 <div class="code"><span class="line"><span class="num">01</span><span class="kw">function</span> <span class="fn">grow</span>(money, rate, months) {</span><span class="line"><span class="num">02</span> &nbsp; <span class="kw">for</span> (let i = 0; i &lt; months; i++) {</span><span class="line"><span class="num">03</span> &nbsp;&nbsp;&nbsp; money = <span class="bad">money + rate</span>;</span><span class="line"><span class="num">04</span> &nbsp; }</span><span class="line"><span class="num">05</span> &nbsp; <span class="kw">return</span> money;</span><span class="line"><span class="num">06</span>}</span></div>
-<label>Введи исправленную строку</label><div class="input-answer"><input id="intFix" type="text" placeholder="" autocomplete="off"><div class="hint">Введи формулу обновления текущей суммы.</div></div>
+<label>Введи исправленную строку</label><div class="input-answer"><input id="intFix" type="text" autocomplete="off"><div class="hint">Введи формулу обновления текущей суммы.</div></div>
 <div class="actions"><button class="primary" onclick="check3()">▶ Проверить решение</button></div><div id="s3" class="status error" style="margin-top:12px">1 000 ₽ при 10% за 3 месяца → 1 030 ₽ ❌</div></div>
 <div class="panel preview"><h2>Рост вклада</h2><div class="muted">1 000 ₽ · 10% в месяц · 3 месяца</div><div class="result" id="r3">1 030 ₽</div><div class="status" style="margin-top:14px">Идея: каждый новый процент начисляется уже на выросшую сумму.</div></div>
 </div>
