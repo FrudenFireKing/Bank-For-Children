@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b12"><title>Почини банк</title>
+<style>
+:root{--bg:#080a0f;--panel:#11151e;--panel2:#171d29;--text:#eef2f7;--muted:#8995a8;--green:#58e6a8;--blue:#67a8ff;--red:#ff647c;--yellow:#ffd166;--line:#273244}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 70% 0,#18253d 0,#080a0f 42%);color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh}.wrap{max-width:1100px;margin:auto;padding:20px 16px 45px}.top{display:flex;justify-content:space-between;align-items:center}.logo{font-weight:950;font-size:23px}.logo span{color:var(--green)}.tag{font-size:12px;border:1px solid var(--line);padding:8px 11px;border-radius:99px;color:#b8c4d6}
+.hero{margin:50px 0 25px}.eyebrow{color:var(--green);font-weight:900;letter-spacing:2px;font-size:12px}.hero h1{font-size:clamp(40px,8vw,72px);line-height:.92;letter-spacing:-3px;margin:12px 0}.hero p{color:var(--muted);font-size:17px;max-width:700px}
+.levels{display:flex;gap:8px;overflow:auto;margin:20px 0}.levels button{min-width:130px;background:#10141d;color:#aeb9ca;border:1px solid var(--line);padding:12px;border-radius:13px;font-weight:900;cursor:pointer}.levels button.active{background:var(--green);color:#07130f;border-color:var(--green)}
+.panel{background:linear-gradient(180deg,rgba(20,26,37,.98),rgba(13,17,25,.98));border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 18px 55px #0005}.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}.full{grid-column:1/-1}.head{display:flex;justify-content:space-between;gap:12px;align-items:center}.head h2{margin:0;font-size:21px}.status{padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:#0c1018;color:#b8c4d5;font-size:14px}.error{border-color:#653040;color:#ff9bad}.ok{border-color:#246b50;color:#9df2ca}
+.code{margin-top:14px;background:#070a10;border:1px solid #273246;border-radius:14px;padding:15px;font:14px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;overflow:auto;min-height:175px}.line{display:block}.num{color:#657189;display:inline-block;width:28px}.kw{color:#c695ff}.fn{color:#67a8ff}.str{color:#ffd166}.bad{color:#ff647c;background:#3b1720;border-radius:4px;padding:1px 4px}.goodcode{color:#58e6a8;background:#0c2b20;border-radius:4px;padding:1px 4px}
+input,select{width:100%;background:#0a0e15;color:#eef2f7;border:1px solid #2c394e;border-radius:11px;padding:11px;font:14px ui-monospace,SFMono-Regular,Consolas,monospace}label{font-size:12px;color:#98a6ba;font-weight:800;display:block;margin:13px 0 6px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button.primary{background:var(--green);color:#07130f;border:0;padding:12px 15px;border-radius:12px;font-weight:950;cursor:pointer}button.secondary{background:#121823;color:#d8e1ee;border:1px solid var(--line);padding:11px 14px;border-radius:12px;font-weight:850;cursor:pointer}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.preview{background:#0a0f18;border:1px solid var(--line);border-radius:16px;padding:18px}.preview .price{font-size:35px;font-weight:950}.result{font-size:25px;font-weight:950;margin-top:7px}.score{font-weight:900;color:var(--yellow)}.hidden{display:none}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,120px);background:#f3f6fb;color:#080b11;padding:12px 16px;border-radius:13px;font-weight:900;transition:.25s;z-index:5}.toast.show{transform:translate(-50%,0)}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.tag{display:none}}
+</style></head>
+<body>
+<div class="wrap">
+<div class="top"><div class="logo">⌘ <span>BANK</span> // REPAIR LAB</div><div class="tag">13–15 лет · 20 минут · командный режим</div></div>
+<div class="hero"><div class="eyebrow">SYSTEM ERROR // TRAINING MODE</div><h1>Почини<br><span style="color:var(--green)">банк.</span></h1><p>Три мини-приложения сломаны. Найди ошибку, измени код и проверь результат. После ремонта настрой свою версию банка.</p></div>
+<div class="levels">
+<button class="active" onclick="level(1,this)">01 · Скидка</button>
+<button onclick="level(2,this)">02 · Валюта</button>
+<button onclick="level(3,this)">03 · Вклад</button>
+<button onclick="level(4,this)">04 · Custom</button>
+</div>
+
+<div id="l1" class="grid">
+<div class="panel"><div class="head"><h2>🔴 LEVEL 01 — Discount Engine</h2><div class="score">+100 XP</div></div><p style="color:var(--muted)">Калькулятор должен уменьшать цену на процент скидки. Сейчас он делает наоборот.</p>
+<div class="code"><span class="line"><span class="num">01</span><span class="kw">function</span> <span class="fn">discount</span>(price, percent) {</span><span class="line"><span class="num">02</span> &nbsp; <span class="kw">return</span> price <span class="bad">* (1 + percent / 100)</span>;</span><span class="line"><span class="num">03</span>}</span></div>
+<label>Исправленная формула</label><select id="discountFix"><option value="wrong">price × (1 + percent / 100)</option><option value="right">price × (1 − percent / 100)</option></select>
+<div class="actions"><button class="primary" onclick="check1()">▶ Запустить</button></div><div id="s1" class="status error" style="margin-top:12px">Цена 2 000 ₽ со скидкой 20% = 2 400 ₽ ❌</div></div>
+<div class="panel preview"><h2>Проверка</h2><div class="muted">Цена</div><div class="price">2 000 ₽</div><div class="muted" style="margin-top:10px">Скидка 20%</div><div class="result" id="r1">2 400 ₽</div><div class="status" style="margin-top:14px">Подсказка: скидка должна <b>уменьшать</b> цену.</div></div>
+</div>
+
+<div id="l2" class="grid hidden">
+<div class="panel"><div class="head"><h2>🔴 LEVEL 02 — FX Converter</h2><div class="score">+100 XP</div></div><p style="color:var(--muted)">Система знает курс 1 USD = 90 RUB, но переводит доллары в рубли неправильно.</p>
+<div class="code"><span class="line"><span class="num">01</span><span class="kw">const</span> rate = <span class="str">90</span>;</span><span class="line"><span class="num">02</span><span class="kw">function</span> <span class="fn">usdToRub</span>(usd) {</span><span class="line"><span class="num">03</span> &nbsp; <span class="kw">return</span> usd <span class="bad">/ rate</span>;</span><span class="line"><span class="num">04</span>}</span></div>
+<label>Что должно стоять вместо «/»?</label><select id="fxFix"><option value="divide">Деление ÷</option><option value="multiply">Умножение ×</option></select>
+<label>Проверка</label><input id="usd" type="number" value="50" min="1">
+<div class="actions"><button class="primary" onclick="check2()">▶ Запустить</button></div><div id="s2" class="status error" style="margin-top:12px">50 USD → 0,56 RUB ❌</div></div>
+<div class="panel preview"><h2>Конвертер</h2><div class="muted">Курс: 1 USD = 90 RUB</div><div class="result" id="r2">50 USD → 0,56 RUB</div><div class="status" style="margin-top:14px">Подсказка: если один доллар стоит 90 рублей, 50 долларов должны быть больше 50 рублей.</div></div>
+</div>
+
+<div id="l3" class="grid hidden">
+<div class="panel"><div class="head"><h2>🟡 LEVEL 03 — Compound Interest</h2><div class="score">+200 XP</div></div><p style="color:var(--muted)">Каждый месяц банк начисляет процент на уже увеличившуюся сумму. Восстанови формулу.</p>
+<div class="code"><span class="line"><span class="num">01</span><span class="kw">function</span> <span class="fn">grow</span>(money, rate, months) {</span><span class="line"><span class="num">02</span> &nbsp; <span class="kw">for</span> (let i = 0; i &lt; months; i++) {</span><span class="line"><span class="num">03</span> &nbsp;&nbsp;&nbsp; money = <span class="bad">money + rate</span>;</span><span class="line"><span class="num">04</span> &nbsp; }</span><span class="line"><span class="num">05</span> &nbsp; <span class="kw">return</span> money;</span><span class="line"><span class="num">06</span>}</span></div>
+<label>Выбери правильную строку</label><select id="intFix"><option value="bad">money = money + rate</option><option value="right">money = money × (1 + rate)</option><option value="other">money = money × rate</option></select>
+<div class="actions"><button class="primary" onclick="check3()">▶ Запустить</button></div><div id="s3" class="status error" style="margin-top:12px">1 000 ₽ при 10% за 3 месяца → 1 030 ₽ ❌</div></div>
+<div class="panel preview"><h2>Рост вклада</h2><div class="muted">1 000 ₽ · 10% в месяц · 3 месяца</div><div class="result" id="r3">1 030 ₽</div><div class="status" style="margin-top:14px">Идея: каждый новый процент начисляется уже на выросшую сумму.</div></div>
+</div>
+
+<div id="l4" class="grid hidden">
+<div class="panel full"><div class="head"><h2>🟢 CUSTOM — Собери свою версию</h2><div class="score" id="xp">XP: 0</div></div><p style="color:var(--muted)">После ремонта измени интерфейс банка. Это твоя мини-версия приложения.</p>
+<div class="row"><div><label>Название банка</label><input id="customName" value="FRUDEN BANK"></div><div><label>Цель накопления</label><input id="customGoal" value="Новые наушники"></div></div>
+<div class="row"><div><label>Цель, ₽</label><input id="customPrice" type="number" value="5000" min="100"></div><div><label>Пополнение, ₽/мес.</label><input id="customMonthly" type="number" value="500" min="0"></div></div>
+<div class="actions"><button class="primary" onclick="launchCustom()">🚀 Запустить мою версию</button><button class="secondary" onclick="resetApp()">↺ Сбросить прогресс</button></div>
+<div id="customStatus" class="status" style="margin-top:14px">Пройди уровни и заработай XP.</div></div>
+<div class="panel full" id="customPreview" style="display:none"><h2 id="bankTitle">FRUDEN BANK</h2><p class="muted">Цель: <b id="bankGoal">Новые наушники</b></p><div class="result" id="bankResult">10 месяцев</div><div class="status ok">🟢 Твоя версия приложения работает. Параметры сохранены в этом браузере.</div></div>
+</div>
+</div>
+<div class="panel" style="margin-top:14px"><b>🎓 Что здесь изучаем:</b> проценты · формулы · логика условий · поиск ошибок · влияние параметров · базовая идея программирования</div>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+let xp=0,done={1:false,2:false,3:false};
+const $=id=>document.getElementById(id),money=n=>Math.round(n).toLocaleString('ru-RU')+' ₽';
+function level(n,b){for(let i=1;i<=4;i++)$('l'+i).classList.add('hidden');$('l'+n).classList.remove('hidden');document.querySelectorAll('.levels button').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(n===4)updateXP();}
+function addXP(n){if(!done[n]){done[n]=true;xp+=n===3?200:100;updateXP();toast('Уровень пройден! +'+(n===3?200:100)+' XP');}}
+function updateXP(){$('xp').textContent='XP: '+xp+' / 400';localStorage.setItem('bank13',JSON.stringify({xp,done}))}
+function check1(){let ok=$('discountFix').value==='right';$('r1').textContent=ok?'1 600 ₽':'2 400 ₽';$('s1').className='status '+(ok?'ok':'error');$('s1').innerHTML=ok?'🟢 Верно! Скидка уменьшает цену: 2 000 × (1 − 0,20) = 1 600 ₽.':'🔴 Пока ошибка. Попробуй ещё раз.';if(ok)addXP(1)}
+function check2(){let ok=$('fxFix').value==='multiply',u=Math.max(0,+$('usd').value||0),v=ok?u*90:u/90;$('r2').textContent=u.toLocaleString('ru-RU')+' USD → '+v.toLocaleString('ru-RU',{maximumFractionDigits:2})+' RUB';$('s2').className='status '+(ok?'ok':'error');$('s2').innerHTML=ok?'🟢 Верно! Доллары переводим в рубли умножением на курс.':'🔴 Пока ошибка. Подумай, сколько рублей в одном долларе.';if(ok)addXP(2)}
+function check3(){let ok=$('intFix').value==='right',b=1000,r=.10,m=3,v=ok?b*Math.pow(1+r,m):1030;$('r3').textContent=money(v);$('s3').className='status '+(ok?'ok':'error');$('s3').innerHTML=ok?'🟢 Отлично! Каждый месяц процент начисляется на уже выросшую сумму.':'🔴 Пока неверно. Процент должен зависеть от текущей суммы.';if(ok)addXP(3)}
+function launchCustom(){let name=$('customName').value||'MY BANK',goal=$('customGoal').value||'Моя цель',p=Math.max(1,+$('customPrice').value||1),m=Math.max(0,+$('customMonthly').value||0),months=m?Math.ceil(p/m):Infinity;$('bankTitle').textContent=name;$('bankGoal').textContent=goal;$('bankResult').textContent=months===Infinity?'Нужны регулярные накопления':months+' '+(months===1?'месяц':months<5?'месяца':'месяцев');$('customPreview').style.display='block';$('customStatus').className='status ok';$('customStatus').innerHTML=xp>=400?'🟢 Все уровни пройдены. Ты собрал собственную версию банка!':'🟡 Версия запущена. Пройди все уровни, чтобы получить 400 XP.';localStorage.setItem('bank13custom',JSON.stringify({name,goal,p,m}));toast('Твоя версия банка запущена!')}
+function resetApp(){localStorage.removeItem('bank13');localStorage.removeItem('bank13custom');location.reload()}
+function toast(t){$('toast').textContent=t;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1700)}
+try{let x=JSON.parse(localStorage.getItem('bank13'));if(x){xp=x.xp||0;done=x.done||{1:false,2:false,3:false}}}catch(e){}updateXP();
+</script></body></html>
