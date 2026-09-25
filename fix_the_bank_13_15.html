@@ -54,16 +54,152 @@ button.primary{background:var(--green);color:#07130f;border:0;padding:12px 15px;
 </div>
 
 <div id="l4" class="grid hidden">
-<div class="panel full"><div class="head"><h2>🟢 CUSTOM — Собери свою версию</h2><div class="score" id="xp">XP: 0</div></div><p style="color:var(--muted)">После ремонта измени интерфейс банка. Это твоя мини-версия приложения.</p>
-<div class="row"><div><label>Название банка</label><input id="customName" value="FRUDEN BANK"></div><div><label>Цель накопления</label><input id="customGoal" value="Новые наушники"></div></div>
-<div class="row"><div><label>Цель, ₽</label><input id="customPrice" type="number" value="5000" min="100"></div><div><label>Пополнение, ₽/мес.</label><input id="customMonthly" type="number" value="500" min="0"></div></div>
-<div class="actions"><button class="primary" onclick="launchCustom()">🚀 Запустить мою версию</button><button class="secondary" onclick="resetApp()">↺ Сбросить прогресс</button></div>
-<div id="customStatus" class="status" style="margin-top:14px">Пройди уровни и заработай XP.</div></div>
-<div class="panel full" id="customPreview" style="display:none"><h2 id="bankTitle">FRUDEN BANK</h2><p class="muted">Цель: <b id="bankGoal">Новые наушники</b></p><div class="result" id="bankResult">10 месяцев</div><div class="status ok">🟢 Твоя версия приложения работает. Параметры сохранены в этом браузере.</div></div>
+  <div class="panel full">
+    <div class="head">
+      <h2>🟢 LEVEL 04 — Моя финансовая цель</h2>
+      <div class="score" id="xp">XP: 0 / 400</div>
+    </div>
+    <p style="color:var(--muted)">
+      Создай собственный финансовый план и преврати его в личный трекер.
+      Его можно сохранить и использовать после занятия.
+    </p>
+    <div class="row">
+      <div>
+        <label>Название банка</label>
+        <input id="customName" value="FRUDEN BANK">
+      </div>
+      <div>
+        <label>Моя цель</label>
+        <input id="customGoal" value="Новые наушники">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Стоимость цели, ₽</label>
+        <input id="customPrice" type="number" value="5000" min="1">
+      </div>
+      <div>
+        <label>Уже накоплено, ₽</label>
+        <input id="customSaved" type="number" value="0" min="0">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Пополнение, ₽/мес.</label>
+        <input id="customMonthly" type="number" value="500" min="1">
+      </div>
+      <div>
+        <label>Процент, % годовых</label>
+        <input id="customRate" type="number" value="0" min="0" max="100" step="0.1">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" onclick="launchCustom()">
+        ▶ Создать мой трекер
+      </button>
+      <button class="secondary" onclick="addContribution()">
+        + Я отложил деньги
+      </button>
+      <button class="secondary" onclick="downloadTracker()">
+        ↓ Сохранить трекер
+      </button>
+      <button class="secondary" onclick="downloadCalendar()">
+        □ Добавить напоминание
+      </button>
+      <button class="secondary" onclick="resetApp()">
+        ↺ Сбросить прогресс
+      </button>
+    </div>
+    <div id="customStatus" class="status" style="margin-top:14px">
+      Заполни данные своей цели и создай трекер.
+    </div>
+  </div>
+  <div class="panel full" id="customPreview" style="display:none">
+    <div class="head">
+      <h2 id="bankTitle">FRUDEN BANK</h2>
+      <div class="score" id="goalPercent">0%</div>
+    </div>
+    <p class="muted">
+      Моя цель:
+      <b id="bankGoal">Новые наушники</b>
+    </p>
+    <div style="
+      margin:18px 0 8px;
+      height:18px;
+      background:#0a0e15;
+      border:1px solid var(--line);
+      border-radius:99px;
+      overflow:hidden;
+    ">
+      <div
+        id="goalBar"
+        style="
+          height:100%;
+          width:0%;
+          background:var(--green);
+          transition:.35s;
+        ">
+      </div>
+    </div>
+    <div class="row">
+      <div class="status">
+        <div class="muted">Накоплено</div>
+        <b id="savedResult">0 ₽</b>
+      </div>
+      <div class="status">
+        <div class="muted">Осталось</div>
+        <b id="remainingResult">5 000 ₽</b>
+      </div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <div class="status">
+        <div class="muted">Пополнение</div>
+        <b id="monthlyResult">500 ₽/мес.</b>
+      </div>
+      <div class="status">
+        <div class="muted">Примерный срок</div>
+        <b id="bankResult">10 месяцев</b>
+      </div>
+    </div>
+    <div class="preview" style="margin-top:14px">
+      <h2>📈 Рост накоплений</h2>
+      <div
+        id="goalGraph"
+        style="
+          display:flex;
+          align-items:flex-end;
+          gap:6px;
+          height:180px;
+          padding:15px 5px 5px;
+          overflow-x:auto;
+        ">
+      </div>
+    </div>
+    <div class="preview" style="margin-top:14px">
+      <h2>План достижения цели</h2>
+      <div
+        class="code"
+        id="goalPlan"
+        style="min-height:100px">
+      </div>
+    </div>
+    <div class="preview" style="margin-top:14px">
+      <h2>История накоплений</h2>
+      <div
+        id="historyList"
+        class="status"
+        style="margin-top:10px">
+        Пока нет пополнений.
+      </div>
+    </div>
+    <div class="status ok" style="margin-top:14px">
+      Трекер сохраняется в этом браузере.
+      Ты можешь возвращаться к нему после занятия и продолжать
+      отмечать накопления.
+    </div>
+  </div>
 </div>
-</div>
-<div class="panel" style="margin-top:14px"><b>🎓 Что здесь изучаем:</b> проценты · формулы · логика условий · поиск ошибок · влияние параметров · базовая идея программирования</div>
-</div>
+  
 <div id="toast" class="toast"></div>
 <script>
 let xp=0,done={1:false,2:false,3:false};
@@ -75,7 +211,771 @@ function norm(v){return String(v).toLowerCase().replace(/\s+/g,'').replace(/×/g
 function check1(){let v=norm($('discountFix').value),ok=['price*(1-percent/100)','price*(100-percent)/100','price-price*percent/100'].includes(v);$('r1').textContent=ok?'1 600 ₽':'2 400 ₽';$('s1').className='status '+(ok?'ok':'error');$('s1').innerHTML=ok?'Верно. Скидка уменьшает цену: 2 000 × (1 − 0,20) = 1 600 ₽.':'Пока ошибка. Проверь знак и формулу скидки и попробуй ещё раз.';if(ok)addXP(1)}
 function check2(){let v=norm($('fxFix').value),ok=['usd*rate','rate*usd'].includes(v),u=Math.max(0,+$('usd').value||0),res=ok?u*90:u/90;$('r2').textContent=u.toLocaleString('ru-RU')+' USD → '+res.toLocaleString('ru-RU',{maximumFractionDigits:2})+' RUB';$('s2').className='status '+(ok?'ok':'error');$('s2').innerHTML=ok?'Верно. USD переводятся в RUB умножением на курс.':'Пока ошибка. Подумай, сколько рублей приходится на один доллар.';if(ok)addXP(2)}
 function check3(){let v=norm($('intFix').value),ok=['money=money*(1+rate)','money=money*(1+rate/100)','money=money+money*rate','money=money+money*rate/100'].includes(v),b=1000,r=.10,m=3,res=ok?b*Math.pow(1+r,m):1030;$('r3').textContent=money(res);$('s3').className='status '+(ok?'ok':'error');$('s3').innerHTML=ok?'Отлично. Каждый месяц процент начисляется на уже выросшую сумму.':'Пока неверно. Процент должен начисляться на текущую сумму.';if(ok)addXP(3)}
-function launchCustom(){let name=$('customName').value||'MY BANK',goal=$('customGoal').value||'Моя цель',p=Math.max(1,+$('customPrice').value||1),m=Math.max(0,+$('customMonthly').value||0),months=m?Math.ceil(p/m):Infinity;$('bankTitle').textContent=name;$('bankGoal').textContent=goal;$('bankResult').textContent=months===Infinity?'Нужны регулярные накопления':months+' '+(months===1?'месяц':months<5?'месяца':'месяцев');$('customPreview').style.display='block';$('customStatus').className='status ok';$('customStatus').innerHTML=xp>=400?'🟢 Все уровни пройдены. Ты собрал собственную версию банка!':'🟡 Версия запущена. Пройди все уровни, чтобы получить 400 XP.';localStorage.setItem('bank13custom',JSON.stringify({name,goal,p,m}));toast('Твоя версия банка запущена!')}
+function getCustomData(){
+  return {
+    name: $('customName').value.trim() || 'MY BANK',
+    goal: $('customGoal').value.trim() || 'Моя цель',
+    price: Math.max(
+      1,
+      +$('customPrice').value || 1
+    ),
+    saved: Math.max(
+      0,
+      +$('customSaved').value || 0
+    ),
+    monthly: Math.max(
+      1,
+      +$('customMonthly').value || 1
+    ),
+    rate: Math.max(
+      0,
+      Math.min(
+        100,
+        +$('customRate').value || 0
+      )
+    )
+  };
+}
+function monthsLabel(n){
+  if(n === 1) return 'месяц';
+  if(
+    n % 10 >= 2 &&
+    n % 10 <= 4 &&
+    (n % 100 < 10 || n % 100 >= 20)
+  ){
+    return 'месяца';
+  }
+  return 'месяцев';
+}
+function updateCustomTracker(data){
+  let saved = Math.min(
+    data.price,
+    Math.max(0, data.saved)
+  );
+  let remaining = Math.max(
+    0,
+    data.price - saved
+  );
+  let percent = Math.min(
+    100,
+    (saved / data.price) * 100
+  );
+  let months =
+    data.monthly > 0
+      ? Math.ceil(remaining / data.monthly)
+      : Infinity;
+  $('bankTitle').textContent = data.name;
+  $('bankGoal').textContent = data.goal;
+  $('goalPercent').textContent =
+    Math.round(percent) + '%';
+  $('goalBar').style.width =
+    percent + '%';
+  $('savedResult').textContent =
+    money(saved);
+  $('remainingResult').textContent =
+    money(remaining);
+  $('monthlyResult').textContent =
+    money(data.monthly) + '/мес.';
+  if(remaining <= 0){
+    $('bankResult').textContent =
+      'Цель достигнута!';
+    $('customStatus').className =
+      'status ok';
+    $('customStatus').innerHTML =
+      '🏆 <b>Цель достигнута!</b> Ты накопил всю необходимую сумму.';
+  }else{
+    $('bankResult').textContent =
+      months + ' ' + monthsLabel(months);
+  }
+  renderGoalGraph(data);
+  renderGoalPlan(data);
+  $('customPreview').style.display =
+    'block';
+}
+function renderGoalGraph(data){
+  let graph = $('goalGraph');
+  graph.innerHTML = '';
+  let current = Math.min(
+    data.price,
+    data.saved
+  );
+  let month = 0;
+  let maxMonths =
+    data.monthly > 0
+      ? Math.ceil(
+          Math.max(0, data.price - current)
+          / data.monthly
+        )
+      : 12;
+  maxMonths = Math.min(
+    Math.max(maxMonths, 1),
+    24
+  );
+  for(let i = 0; i <= maxMonths; i++){
+    let amount =
+      Math.min(
+        data.price,
+        current + data.monthly * i
+      );
+    let height =
+      Math.max(
+        8,
+        (amount / data.price) * 150
+      );
+    let bar =
+      document.createElement('div');
+    bar.style.minWidth = '30px';
+    bar.style.height =
+      height + 'px';
+    bar.style.background =
+      'var(--green)';
+    bar.style.borderRadius =
+      '6px 6px 0 0';
+    bar.style.opacity =
+      i === 0 ? '.45' : '1';
+    bar.title =
+      i === 0
+        ? 'Сейчас: ' + money(amount)
+        : 'Месяц ' + i + ': ' + money(amount);
+    let label =
+      document.createElement('div');
+    label.textContent =
+      i === 0 ? 'Сейчас' : i;
+    label.style.fontSize =
+      '10px';
+    label.style.color =
+      'var(--muted)';
+    label.style.textAlign =
+      'center';
+    let column =
+      document.createElement('div');
+    column.style.display =
+      'flex';
+    column.style.flexDirection =
+      'column';
+    column.style.justifyContent =
+      'flex-end';
+    column.style.alignItems =
+      'center';
+    column.style.height =
+      '165px';
+    column.appendChild(bar);
+    column.appendChild(label);
+    graph.appendChild(column);
+  }
+}
+function renderGoalPlan(data){
+
+  let plan = '';
+
+  let current = Math.min(
+    data.price,
+    data.saved
+  );
+
+  let month = 0;
+
+
+  if(current >= data.price){
+
+    plan =
+      '<span class="line">' +
+      '<span class="goodcode">' +
+      'Цель уже достигнута.' +
+      '</span>' +
+      '</span>';
+
+  }else{
+
+    while(
+      current < data.price &&
+      month < 24
+    ){
+
+      month++;
+
+      current =
+        Math.min(
+          data.price,
+          current + data.monthly
+        );
+
+
+      plan +=
+        '<span class="line">' +
+        '<span class="num">' +
+        String(month).padStart(2,'0') +
+        '</span> ' +
+        money(current) +
+        '</span>';
+
+    }
+
+
+    if(
+      month >= 24 &&
+      current < data.price
+    ){
+
+      plan +=
+        '<span class="line">…</span>';
+
+    }
+
+  }
+
+
+  $('goalPlan').innerHTML =
+    plan;
+
+}
+
+
+function launchCustom(){
+
+  let data =
+    getCustomData();
+
+
+  if(data.monthly <= 0){
+
+    $('customStatus').className =
+      'status error';
+
+    $('customStatus').innerHTML =
+      'Укажи сумму, которую ты сможешь откладывать каждый месяц.';
+
+    $('customMonthly').focus();
+
+    return;
+
+  }
+
+
+  $('customSaved').value =
+    Math.min(
+      data.price,
+      data.saved
+    );
+
+
+  updateCustomTracker(data);
+
+  renderHistory();
+
+
+  $('customStatus').className =
+    'status ok';
+
+  $('customStatus').innerHTML =
+    xp >= 400
+
+      ? '🟢 Все уровни пройдены. Теперь у тебя есть собственный финансовый трекер!'
+
+      : '🟢 Трекер создан. Его можно сохранить и использовать после занятия.';
+
+
+  localStorage.setItem(
+    'bank13custom',
+    JSON.stringify(data)
+  );
+
+
+  toast(
+    'Твоя финансовая цель создана!'
+  );
+
+}
+
+
+function addContribution(){
+
+  let data =
+    getCustomData();
+
+
+  if(data.monthly <= 0){
+
+    toast(
+      'Сначала укажи ежемесячное пополнение'
+    );
+
+    return;
+
+  }
+
+
+  if(data.saved >= data.price){
+
+    toast(
+      'Цель уже достигнута!'
+    );
+
+    return;
+
+  }
+
+
+  let amount =
+    Math.min(
+      data.monthly,
+      data.price - data.saved
+    );
+
+
+  data.saved += amount;
+
+
+  $('customSaved').value =
+    data.saved;
+
+
+  let history = [];
+
+  try{
+
+    history =
+      JSON.parse(
+        localStorage.getItem(
+          'bank13history'
+        )
+      ) || [];
+
+  }catch(e){
+
+    history = [];
+
+  }
+
+
+  history.push({
+
+    amount: amount,
+
+    date:
+      new Date()
+        .toLocaleDateString('ru-RU')
+
+  });
+
+
+  localStorage.setItem(
+    'bank13history',
+    JSON.stringify(history)
+  );
+
+
+  localStorage.setItem(
+    'bank13custom',
+    JSON.stringify(data)
+  );
+
+
+  updateCustomTracker(data);
+
+  renderHistory();
+
+
+  if(data.saved >= data.price){
+
+    toast(
+      '🏆 Цель достигнута!'
+    );
+
+  }else{
+
+    toast(
+      'Пополнение добавлено: +' +
+      money(amount)
+    );
+
+  }
+
+}
+
+
+function renderHistory(){
+
+  let history = [];
+
+  try{
+
+    history =
+      JSON.parse(
+        localStorage.getItem(
+          'bank13history'
+        )
+      ) || [];
+
+  }catch(e){
+
+    history = [];
+
+  }
+
+
+  if(!history.length){
+
+    $('historyList').textContent =
+      'Пока нет пополнений.';
+
+    return;
+
+  }
+
+
+  $('historyList').innerHTML =
+
+    history
+      .slice()
+      .reverse()
+      .map(function(item){
+
+        return `
+          <div style="
+            padding:7px 0;
+            border-bottom:1px solid var(--line)
+          ">
+            ${item.date}
+            —
+            <b>+${money(item.amount)}</b>
+          </div>
+        `;
+
+      })
+      .join('');
+
+}
+
+
+function downloadTracker(){
+
+  let data =
+    getCustomData();
+
+
+  let saved =
+    Math.min(
+      data.price,
+      data.saved
+    );
+
+
+  let percent =
+    Math.min(
+      100,
+      (saved / data.price) * 100
+    );
+
+
+  let months =
+    data.monthly > 0
+
+      ? Math.ceil(
+          Math.max(
+            0,
+            data.price - saved
+          ) / data.monthly
+        )
+
+      : 0;
+
+
+  let page = `
+
+<!doctype html>
+
+<html lang="ru">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
+
+<title>
+${htmlEscape(data.goal)}
+</title>
+
+<style>
+
+body{
+  font-family:system-ui;
+  background:#080a0f;
+  color:#eef2f7;
+  max-width:700px;
+  margin:auto;
+  padding:30px;
+}
+
+main{
+  background:#11151e;
+  border:1px solid #273244;
+  border-radius:20px;
+  padding:25px;
+}
+
+.muted{
+  color:#8995a8;
+}
+
+.bar{
+  height:20px;
+  background:#0a0e15;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.fill{
+  height:100%;
+  width:${percent}%;
+  background:#58e6a8;
+}
+
+.stat{
+  padding:14px;
+  background:#171d29;
+  border-radius:12px;
+  margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<main>
+
+<p class="muted">
+${htmlEscape(data.name)}
+</p>
+
+<h1>
+${htmlEscape(data.goal)}
+</h1>
+
+<h2>
+${money(saved)} / ${money(data.price)}
+</h2>
+
+<div class="bar">
+  <div class="fill"></div>
+</div>
+
+<div class="stat">
+  Прогресс: ${Math.round(percent)}%
+</div>
+
+<div class="stat">
+  Пополнение: ${money(data.monthly)} в месяц
+</div>
+
+<div class="stat">
+
+${
+  saved >= data.price
+
+    ? '🏆 Цель достигнута!'
+
+    : 'Осталось примерно ' +
+      months +
+      ' ' +
+      monthsLabel(months)
+
+}
+
+</div>
+
+<p class="muted">
+Трекер создан в «Почини банк».
+</p>
+
+</main>
+
+</body>
+
+</html>
+
+`;
+
+
+  let blob =
+    new Blob(
+      [page],
+      {
+        type:
+          'text/html;charset=utf-8'
+      }
+    );
+
+
+  let a =
+    document.createElement('a');
+
+
+  a.href =
+    URL.createObjectURL(blob);
+
+
+  a.download =
+    'my-financial-goal.html';
+
+
+  a.click();
+
+
+  setTimeout(
+    () =>
+      URL.revokeObjectURL(a.href),
+    1000
+  );
+
+
+  toast(
+    'Трекер сохранён!'
+  );
+
+}
+
+
+function htmlEscape(s){
+
+  return String(s)
+
+    .replace(
+      /&/g,
+      '&amp;'
+    )
+
+    .replace(
+      /</g,
+      '&lt;'
+    )
+
+    .replace(
+      />/g,
+      '&gt;'
+    )
+
+    .replace(
+      /"/g,
+      '&quot;'
+    );
+
+}
+
+
+function downloadCalendar(){
+
+  let data =
+    getCustomData();
+
+
+  if(data.monthly <= 0){
+
+    toast(
+      'Сначала укажи ежемесячное пополнение'
+    );
+
+    return;
+
+  }
+
+
+  let start =
+    new Date();
+
+
+  start.setDate(
+    start.getDate() + 1
+  );
+
+
+  let end =
+    new Date(start);
+
+
+  end.setMonth(
+    end.getMonth() + 1
+  );
+
+
+  function icsDate(d){
+
+    return (
+
+      d.getFullYear() +
+
+      String(
+        d.getMonth() + 1
+      ).padStart(2,'0') +
+
+      String(
+        d.getDate()
+      ).padStart(2,'0')
+
+    );
+
+  }
+
+
+  let ics =
+
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//FRUDEN BANK//Goal Tracker//RU
+BEGIN:VEVENT
+UID:${Date.now()}@fruden-bank
+DTSTART;VALUE=DATE:${icsDate(start)}
+DTEND;VALUE=DATE:${icsDate(end)}
+RRULE:FREQ=MONTHLY
+SUMMARY:Пополнение цели — ${data.goal}
+DESCRIPTION:Отложить ${money(data.monthly)} на финансовую цель.
+END:VEVENT
+END:VCALENDAR`;
+
+
+  let blob =
+    new Blob(
+      [ics],
+      {
+        type:
+          'text/calendar;charset=utf-8'
+      }
+    );
+
+
+  let a =
+    document.createElement('a');
+
+
+  a.href =
+    URL.createObjectURL(blob);
+
+
+  a.download =
+    'financial-goal-reminder.ics';
+
+
+  a.click();
+
+
+  setTimeout(
+    () =>
+      URL.revokeObjectURL(a.href),
+    1000
+  );
+
+
+  toast(
+    'Файл напоминания создан!'
+  );
+
+}
 function resetApp(){localStorage.removeItem('bank13');localStorage.removeItem('bank13custom');location.reload()}
 function toast(t){$('toast').textContent=t;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1700)}
 try{let x=JSON.parse(localStorage.getItem('bank13'));if(x){xp=x.xp||0;done=x.done||{1:false,2:false,3:false}}}catch(e){}updateXP();
