@@ -98,7 +98,52 @@ function balance(changed){let ids=['spend','saveEnv','reserve'];let changedEl=$(
 function randomPlan(){let s=Math.floor(Math.random()*11)*50,r=Math.floor(Math.random()*5)*50;let sp=1000-s-r;if(sp<0){s=500;r=100;sp=400} $('spend').value=sp;$('saveEnv').value=s;$('reserve').value=r;balance('spend');toast('Новый финансовый план готов!');}
 function simulate(){let start=+$('start').value,monthly=+$('monthly').value,m=+$('months').value,rate=+$('rate').value/100/12,b=start,vals=[];for(let i=1;i<=m;i++){b=b*(1+rate)+monthly;vals.push(b)}$('startV').textContent=money(start);$('monthlyV').textContent=money(monthly);$('monthsV').textContent=m+' мес.';$('rateV').textContent=(rate*12*100).toFixed(1)+'%';$('finalMonths').textContent=m;$('finalSum').textContent=money(b);let max=Math.max(...vals,1);$('chart').innerHTML=vals.map((v,i)=>`<div class="col"><div class="stick" style="height:${Math.max(3,v/max*88)}%"></div><small>${i+1}</small></div>`).join('');}
 function syncCode(){$('codeGoal').textContent=+$('target').value;$('codeSave').textContent=+$('save').value;$('codeRate').textContent=$('devRate')?.value||10;}
-function applyDev(){let r=Math.max(0,Math.min(50,+$('devRate').value||0));$('rate').value=Math.min(20,r);$('bankName').value=$('bankName').value||'Мой первый банк';document.querySelector('.brand').innerHTML='🏦 '+$('bankName').value.replace(/</g,'&lt;').replace(/>/g,'&gt;');$('codeTheme').textContent='"custom"';simulate();syncCode();$('devStatus').className='status good';$('devStatus').innerHTML='🟢 Приложение изменено. <b>Ты только что запрограммировал его поведение.</b>';saveState();toast('Изменения применены!');}
+function applyDev(){
+    const bankName = $('bankName').value.trim();
+    const rateInput = $('devRate').value.trim();
+    if (!bankName) {
+        $('devStatus').className = 'status bad';
+        $('devStatus').innerHTML = 'Введите название своего банка.';
+        toast('Сначала придумай название банка');
+        $('bankName').focus();
+        return;
+    }
+    if (rateInput === '') {
+        $('devStatus').className = 'status bad';
+        $('devStatus').innerHTML = 'Введите процентную ставку.';
+        toast('Введите процентную ставку');
+        $('devRate').focus();
+        return;
+    }
+
+    const rate = Number(rateInput);
+  
+    if (isNaN(rate) || rate < 0 || rate > 20) {
+        $('devStatus').className = 'status bad';
+        $('devStatus').innerHTML = 'Процент должен быть от 0 до 20.';
+        toast('Введите процент от 0 до 20');
+        $('devRate').focus();
+        return;
+    }
+    
+    $('rate').value = rate;
+    $('bankName').value = bankName;
+
+    document.querySelector('.brand').innerHTML =
+        '🏦 ' + bankName.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+    $('codeTheme').textContent = '"custom"';
+
+    simulate();
+    syncCode();
+
+    $('devStatus').className = 'status good';
+    $('devStatus').innerHTML =
+        '🟢 Приложение изменено. <b>Ты только что запрограммировал его поведение.</b>';
+
+    saveState();
+    toast('Изменения применены!');
+}
 function resetAll(){localStorage.removeItem('bank12');location.reload();}
 function saveState(){localStorage.setItem('bank12',JSON.stringify({goal:$('goalName').value,target:$('target').value,save:$('save').value,spend:$('spend').value,saveEnv:$('saveEnv').value,reserve:$('reserve').value}));}
 function loadState(){try{let x=JSON.parse(localStorage.getItem('bank12'));if(!x)return;['goalName','target','save','spend','saveEnv','reserve'].forEach(k=>{if(x[k]!=null)$(k).value=x[k]});}catch(e){}update();balance('spend');}
