@@ -103,8 +103,8 @@ button.primary{background:var(--green);color:#07130f;border:0;padding:12px 15px;
       <button class="secondary" onclick="downloadTracker()">
         ↓ Сохранить трекер
       </button>
-      <button class="secondary" onclick="downloadCalendar()">
-        □ Добавить напоминание
+      <button class="secondary" onclick="openReminderModal()">
+        🔔 Напоминание
       </button>
       <button class="secondary" onclick="resetApp()">
         ↺ Сбросить прогресс
@@ -795,7 +795,113 @@ ${
 </p>
 
 </main>
+<div
+  id="reminderModal"
+  style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    z-index:3000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  "
+>
+  <div
+    class="panel"
+    style="
+      width:min(100%,420px);
+      text-align:center;
+    "
+  >
 
+    <h2>🔔 Напоминание</h2>
+
+    <p class="muted">
+      Выбери календарь, в котором хочешь
+      получать напоминание о пополнении цели.
+    </p>
+
+    <div
+      class="status"
+      style="
+        margin:18px 0;
+        text-align:left;
+      "
+    >
+      <div class="muted">
+        Моя цель
+      </div>
+
+      <b id="reminderGoal">
+        —
+      </b>
+
+      <br><br>
+
+      <div class="muted">
+        Пополнение
+      </div>
+
+      <b id="reminderAmount">
+        —
+      </b>
+
+      <br><br>
+
+      <div class="muted">
+        Периодичность
+      </div>
+
+      <b>
+        Каждый месяц
+      </b>
+    </div>
+
+
+    <div
+      style="
+        display:grid;
+        gap:10px;
+      "
+    >
+
+      <button
+        class="primary"
+        onclick="addToGoogleCalendar()"
+      >
+        📅 Google Calendar
+      </button>
+
+
+      <button
+        class="secondary"
+        onclick="addToYandexCalendar()"
+      >
+        🟡 Яндекс Календарь
+      </button>
+
+
+      <button
+        class="secondary"
+        onclick="downloadCalendar()"
+      >
+        ↓ Скачать файл календаря
+      </button>
+
+
+      <button
+        class="secondary"
+        onclick="closeReminderModal()"
+      >
+        Отмена
+      </button>
+
+    </div>
+
+  </div>
+</div>
 </body>
 
 </html>
@@ -980,4 +1086,219 @@ function resetApp(){localStorage.removeItem('bank13');localStorage.removeItem('b
 function toast(t){$('toast').textContent=t;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1700)}
 try{let x=JSON.parse(localStorage.getItem('bank13'));if(x){xp=x.xp||0;done=x.done||{1:false,2:false,3:false}}}catch(e){}updateXP();
 document.addEventListener('keydown',e=>{if(e.key==='Enter'){let id=document.activeElement&&document.activeElement.id;if(id==='discountFix')check1();if(id==='fxFix')check2();if(id==='intFix')check3();}});
+function openReminderModal(){
+
+  let data = getCustomData();
+
+  if(!data.goal){
+
+    toast('Сначала создай финансовую цель');
+
+    return;
+
+  }
+
+  if(data.monthly <= 0){
+
+    toast(
+      'Сначала укажи сумму ежемесячного пополнения'
+    );
+
+    return;
+
+  }
+
+
+  $('reminderGoal').textContent =
+    data.goal;
+
+  $('reminderAmount').textContent =
+    money(data.monthly) + ' / месяц';
+
+
+  $('reminderModal').style.display =
+    'flex';
+
+}
+
+
+function closeReminderModal(){
+
+  $('reminderModal').style.display =
+    'none';
+
+}
+
+function addToGoogleCalendar(){
+
+  let data = getCustomData();
+
+
+  let title =
+    'Пополнение цели — ' +
+    data.goal;
+
+
+  let description =
+    'Отложить ' +
+    data.monthly +
+    ' ₽ на финансовую цель.';
+
+
+  /*
+    Напоминание ставим на завтра.
+    В дальнейшем Google Calendar
+    будет повторять его каждый месяц.
+  */
+
+  let date = new Date();
+
+  date.setDate(
+    date.getDate() + 1
+  );
+
+
+  let dateString =
+    date.getFullYear() +
+
+    String(
+      date.getMonth() + 1
+    ).padStart(2,'0') +
+
+    String(
+      date.getDate()
+    ).padStart(2,'0');
+
+
+  let start =
+    dateString;
+
+
+  let end =
+    dateString;
+
+
+  let url =
+    'https://calendar.google.com/calendar/render' +
+
+    '?action=TEMPLATE' +
+
+    '&text=' +
+    encodeURIComponent(title) +
+
+    '&dates=' +
+    start +
+    '/' +
+    end +
+
+    '&details=' +
+    encodeURIComponent(description) +
+
+    '&recur=' +
+    encodeURIComponent(
+      'RRULE:FREQ=MONTHLY'
+    );
+
+
+  window.open(
+    url,
+    '_blank'
+  );
+
+
+  closeReminderModal();
+
+}
+
+function addToYandexCalendar(){
+
+  let data = getCustomData();
+
+
+  let start = new Date();
+
+  start.setDate(
+    start.getDate() + 1
+  );
+
+
+  function icsDate(d){
+
+    return (
+
+      d.getFullYear() +
+
+      String(
+        d.getMonth() + 1
+      ).padStart(2,'0') +
+
+      String(
+        d.getDate()
+      ).padStart(2,'0')
+
+    );
+
+  }
+
+
+  let date =
+    icsDate(start);
+
+
+  let ics =
+
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//FRUDEN BANK//Financial Goal//RU
+BEGIN:VEVENT
+UID:${Date.now()}@fruden-bank
+DTSTART;VALUE=DATE:${date}
+RRULE:FREQ=MONTHLY
+SUMMARY:Пополнение цели — ${data.goal}
+DESCRIPTION:Отложить ${data.monthly} ₽ на финансовую цель.
+END:VEVENT
+END:VCALENDAR`;
+
+
+  let blob =
+    new Blob(
+      [ics],
+      {
+        type:
+          'text/calendar;charset=utf-8'
+      }
+    );
+
+
+  let url =
+    URL.createObjectURL(blob);
+
+
+  let a =
+    document.createElement('a');
+
+
+  a.href =
+    url;
+
+  a.download =
+    'fruden-bank-reminder.ics';
+
+  a.click();
+
+
+  setTimeout(
+    () => URL.revokeObjectURL(url),
+    1000
+  );
+
+
+  closeReminderModal();
+
+
+  toast(
+    'Файл календаря создан!'
+  );
+
+}
 </script></body></html>
